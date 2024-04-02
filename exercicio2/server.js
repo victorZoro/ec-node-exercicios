@@ -1,53 +1,59 @@
-import Fastify from 'fastify'
-import searchVehicleController from './controller/searchVehicleController.js'
-import addVehicleController from './controller/addVehicleController.js';
-import deleteVehicleController from './controller/deleteVehicleController.js';
-import updateVehicleController from './controller/updateVehicleController.js';
-import listBrandController from './controller/listBrandController.js';
+import Fastify from "fastify";
+import createVehicleController from "./controller/createVehicle.js";
+import findVehicleController from "./controller/findVehicle.js";
+import updateVehicleController from "./controller/updateVehicle.js";
+import deleteVehicleController from "./controller/deleteVehicle.js";
 
+export let vehicles = [];
+export let brands = [];
 
-/**
- * TODO: Refactor brand addition.
- * TODO: Refactor variable's names.
- */
 const fastify = Fastify({
-  logger: true
-})
-
-const vehicles = [];
-const brands = [];
-
-fastify.get('/vehicle/:id', (req, res) => {
-  const { id } = req.params;
-  searchVehicleController(res, Number(id), vehicles);
+  logger: true,
 });
 
-fastify.get('/brands', (req, res) => {
-  listBrandController(res, brands);
-})
+fastify.get("/", async (req, res) => {
+  return { feedback: "Welcome to the vehicle API" };
+});
 
-fastify.post('/vehicle', (req, res) => {
-  const params = req.body;
-  params.brands = brands;
-  vehicles = addVehicleController(res, vehicles, params);
-})
+fastify.get("/brands", async (req, res) => {
+  if (brands.length === 0) {
+    res.statusCode = 404;
+    return { feedback: "No brands found", statusCode: res.statusCode };
+  }
+  return brands;
+});
 
-fastify.put('/vehicle/:id', (req, res) => {
-  const params = req.body;
-  params.id = req.params.id;
-  params.brands = brands;
-  vehicles = updateVehicleController(res, vehicles, params);
-})
+fastify.get("/vehicles", async (req, res) => {
+  if (vehicles.length === 0) {
+    res.statusCode = 404;
+    return {
+      feedback: "No vehicles found",
+      statusCode: res.statusCode,
+      vehicles_type: typeof(vehicles),
+      brands_type: typeof(brands),
+      vehicleIsArray: Array.isArray(vehicles),
+      brandsIsArray: Array.isArray(brands),
+    };
+  }
+  return vehicles;
+});
 
-fastify.delete('/vehicle/:id', (req, res) => {
-  const { id } = req.params;
-  vehicles = deleteVehicleController(res, Number(id), vehicles);
-})
+fastify.get("/vehicles/:id", async (req, res) =>
+  findVehicleController(req, res)
+);
+fastify.post("/vehicles", async (req, res) =>
+  createVehicleController(req, res)
+);
+fastify.put("/vehicles/:id", async (req, res) =>
+  updateVehicleController(req, res)
+);
+fastify.delete("/vehicles/:id", async (req, res) =>
+  deleteVehicleController(req, res)
+);
 
 try {
-  await fastify.listen({ port: 3000 })
+  await fastify.listen({ port: 3000 });
 } catch (err) {
-  fastify.log.error(err)
-  process.exit(1)
+  fastify.log.error(err);
+  process.exit(1);
 }
-
