@@ -10,3 +10,5 @@ app.get('/sum/:number', (req, res) => sum(req, res));
 app.put('/sum/:number', (req, res) => sum(req, res));
 
 app.get('/concat/:name/:word', (req, res) => concat(req, res));
+app.post('/concat/:name', (req, res) => concat(req, res));
+app.delete('/concat/:name', (req, res) => concat(req, res));
