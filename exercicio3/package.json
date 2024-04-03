@@ -12,6 +12,8 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "@fastify/mysql": "^4.2.0",
+    "dotenv": "^16.4.5",
     "fastify": "^4.26.2",
     "nodemon": "^3.1.0"
   }

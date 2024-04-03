@@ -1,0 +1,24 @@
+CREATE DATABASE IF NOT EXISTS agency_database;
+USE agency_database;
+
+CREATE TABLE IF NOT EXISTS category(
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    name VARCHAR(255) NOT NULL
+);
+
+CREATE TABLE IF NOT EXISTS brand(
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    name VARCHAR(255) NOT NULL
+);
+
+CREATE TABLE IF NOT EXISTS vehicle(
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    name VARCHAR(255) NOT NULL,
+    model VARCHAR(255) NOT NULL,
+    year INT NOT NULL,
+    color VARCHAR(255) NOT NULL,
+    category INT NOT NULL,
+    brand INT NOT NULL,
+    FOREIGN KEY (category) REFERENCES category(id),
+    FOREIGN KEY (brand) REFERENCES brand(id)
+);
