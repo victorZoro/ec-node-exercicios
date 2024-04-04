@@ -1,4 +1,4 @@
-const validate = (brand) => {
+export const validate = (brand) => {
     if (!brand) {
         return {
             message: 'Brand is required',
