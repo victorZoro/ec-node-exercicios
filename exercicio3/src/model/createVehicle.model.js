@@ -7,4 +7,15 @@ export const createVehicle = (connection, params) => {
             return err || result
         }
     )
+
+    return {
+        vehicle: {
+            name: params.name,
+            model: params.model,
+            year: params.year,
+            color: params.color,
+            category: params.category,
+            brand: params.brand
+        }
+    }
 }
