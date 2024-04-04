@@ -1,6 +1,7 @@
 import Fastify from "fastify";
 import dotenv from "dotenv";
-import connect from "./model/connection.js";
+import { connect, useDefaultDatabase } from "./model/connection.model.js";
+import CATEGORY_QUERY from "./query/category.query.js";
 
 dotenv.config();
 
@@ -10,20 +11,18 @@ export const fastify = Fastify({
 
 const connection = connect(fastify);
 
-fastify.get("/", async (request, reply) => {
-    connection.mysql.query(
-        'SHOW DATABASES',
-        (err, result) => {
-            if (err) {
-                reply.send(err);
-                return;
-            }
-            reply.send(result);
-        }
-    );
 
-    return reply;
-});
+// fastify.get("/:id", async (request, reply) => {
+
+//     connection.mysql.query(
+//         CATEGORY_QUERY.GET_CATEGORY_BY_ID, [request.params.id],
+//         function onResult(err, result) {
+//             reply.send(err || result)
+//         }
+//     );
+
+//     return reply;
+// });
 
 
 try {

@@ -6,11 +6,15 @@ const connect = (fastify) => {
     const password = process.env.MYSQL_ROOT_PASSWORD;
     const port = process.env.MYSQL_PORT;
 
-    const mysqlConnectionString = `mysql://${user}:${password}@localhost:${port}`
+    const mysqlConnectionString = `mysql://${user}:${password}@localhost:${port}/agency_database`
 
     return fastify.register(fastifyMysql, {
         connectionString: mysqlConnectionString,
     });
 }
 
-export default connect;
+const useDefaultDatabase = (connection) => {
+    connection.mysql.query('USE agency_database');
+}
+
+export { connect, useDefaultDatabase };
