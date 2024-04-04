@@ -1,7 +1,10 @@
-import { validate } from "./util/validation/vehicle.validation";
-import { createVehicle } from "../model/createVehicle.model";
-import { connection } from "../../server";
+import { validate } from "./util/validation/vehicle.validation.js";
+import { createVehicle } from "../model/createVehicle.model.js";
+import { connection } from "../../server.js";
 import { Response, HttpStatus } from "../model/feedback.model.js";
+import { retrieveVehicles } from "../model/retrieveVehicles.js";
+
+const vehicleController = {};
 
 const create = (req, res) => {
   const { name, model, year, color, brand, category } = req.body;
@@ -26,18 +29,27 @@ const create = (req, res) => {
     );
   }
 
-  res.send(
+  vehicle.year = Number(vehicle.year);
+
+  return res.send(
     new Response(
       HttpStatus.CREATED.code,
       HttpStatus.CREATED.status,
-      "Vehicle created successfully",
+      "The vehicle was sucessfully created.",
       createVehicle(connection, vehicle).vehicle
     )
   )
 }
 
 const getAll = (req, res) => {
-
+  return res.send(
+    new Response(
+      HttpStatus.OK.code,
+      HttpStatus.OK.status,
+      "All vehicles retrieved from database.",
+      retrieveVehicles(connection, null)
+    )
+  );
 }
 
 const get = (req, res) => {
@@ -52,4 +64,10 @@ const remove = (req, res) => {
 
 }
 
-export { create, getAll, get, update, remove }
+vehicleController.create = create;
+vehicleController.getAll = getAll;
+vehicleController.get = get;
+vehicleController.update = update;
+vehicleController.remove = remove;
+
+export { vehicleController }
