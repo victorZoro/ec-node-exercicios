@@ -1,10 +1,16 @@
-import mysql from '@fastify/mysql';
+import fastifyMysql from '@fastify/mysql';
 
 const connect = (fastify) => {
-    return fastify.register(mysql, {
-        connectionString: process.env.MYSQL_CONNECTION_STRING,
+
+    const user = process.env.MYSQL_ROOT_USER;
+    const password = process.env.MYSQL_ROOT_PASSWORD;
+    const port = process.env.MYSQL_PORT;
+
+    const mysqlConnectionString = `mysql://${user}:${password}@localhost:${port}`
+
+    return fastify.register(fastifyMysql, {
+        connectionString: mysqlConnectionString,
     });
-    // return fastify.register()
 }
 
 export default connect;

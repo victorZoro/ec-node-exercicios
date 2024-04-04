@@ -21,6 +21,8 @@ fastify.get("/", async (request, reply) => {
             reply.send(result);
         }
     );
+
+    return reply;
 });
 
 
