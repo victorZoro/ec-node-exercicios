@@ -1,7 +1,7 @@
 import Fastify from "fastify";
 import dotenv from "dotenv";
-import { connect, useDefaultDatabase } from "./model/connection.model.js";
-import CATEGORY_QUERY from "./query/category.query.js";
+import { connect } from "./src/model/connection.model.js";
+import { vehicleController } from "./src/controller/vehicle.controller.js";
 
 dotenv.config();
 
@@ -9,21 +9,11 @@ export const fastify = Fastify({
     logger: true,
 });
 
-const connection = connect(fastify);
+export const connection = connect(fastify);
 
+fastify.get('/vehicles', (req, res) => vehicleController.getAll(req, res));
 
-// fastify.get("/:id", async (request, reply) => {
-
-//     connection.mysql.query(
-//         CATEGORY_QUERY.GET_CATEGORY_BY_ID, [request.params.id],
-//         function onResult(err, result) {
-//             reply.send(err || result)
-//         }
-//     );
-
-//     return reply;
-// });
-
+fastify.post('/vehicles', (req, res) => vehicleController.create(req, res));
 
 try {
     await fastify.listen({ port: process.env.API_PORT });
