@@ -1,4 +1,4 @@
-import VEHICLES_QUERY from "../query/vehicle.query.js"
+import VEHICLES_QUERY from "../query/vehicles.query.js"
 
 export const retrieveVehicles = async (connection, params) => {
     if (!params) {

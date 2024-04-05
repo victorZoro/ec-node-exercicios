@@ -1,10 +1,13 @@
-import BRAND_QUERY from "../query/vehicle.query.js";
+import BRANDS_QUERY from "../query/brands.query.js";
 
 export const createBrand = (connection, params) => {
-    return connection.mysql.query(
-        BRAND_QUERY.CREATE_BRAND, [params.name],
-        function onResult(err, result) {
-            return err || result
-        }
-    )
+    try {
+        const [results] = connection.query(
+            BRANDS_QUERY.CREATE_BRAND,
+            [params.name]
+        );
+        return results;
+    } catch (err) {
+        throw err;
+    }
 }

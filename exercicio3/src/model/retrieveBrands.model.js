@@ -1,19 +1,25 @@
-import BRANDS_QUERY from "../query/brand.query";
+import BRANDS_QUERY from "../query/brand.query.js";
 
-export const retrieveBrands = (connection, params) => {
-    if(!params) {
-        return connection.mysql.query(
-            BRANDS_QUERY.GET_BRANDS,
-            function onResult(err, result) {
-                return
-            }
-        )
-    }
-    
-    return connection.mysql.query(
-        BRANDS_QUERY.GET_BRAND_BY_ID, [params.id],
-        function onResult(err, result) {
-            return err || result
+export const retrieveBrands = async (connection, params) => {
+    if (!params) {
+        try {
+            const [results] = await connection.query(
+                BRANDS_QUERY.GET_BRANDS
+            );
+            return results;
+        } catch (err) {
+            throw err;
         }
-    )
+
+    }
+
+    try {
+        const [results] = await connection.query(
+            BRANDS_QUERY.GET_BRAND_BY_ID,
+            [params.id]
+        );
+        return results;
+    } catch (err) {
+        throw err;
+    }
 }
