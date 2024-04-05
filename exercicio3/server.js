@@ -9,11 +9,17 @@ export const fastify = Fastify({
     logger: true,
 });
 
-export const connection = connect(fastify);
+export const connection = await connect();
 
-fastify.get('/vehicles', (req, res) => vehicleController.getAll(req, res));
+fastify.get('/vehicles', async (req, res) => vehicleController.getAll(req, res));
 
-fastify.post('/vehicles', (req, res) => vehicleController.create(req, res));
+fastify.get('/vehicles/:id', async (req, res) => vehicleController.get(req, res));
+
+fastify.post('/vehicles', async (req, res) => vehicleController.create(req, res));
+
+fastify.put('/vehicles/:id', async (req, res) => vehicleController.update(req, res));
+
+fastify.delete('/vehicles/:id', async (req, res) => vehicleController.remove(req, res));
 
 try {
     await fastify.listen({ port: process.env.API_PORT });
