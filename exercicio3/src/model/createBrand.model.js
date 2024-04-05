@@ -2,7 +2,7 @@ import BRANDS_QUERY from "../query/brands.query.js";
 
 export const createBrand = (connection, params) => {
     try {
-        const [results] = connection.query(
+        const [results, fields] = connection.query(
             BRANDS_QUERY.CREATE_BRAND,
             [params.name]
         );
