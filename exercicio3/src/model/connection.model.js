@@ -1,14 +1,13 @@
-import fastifyMysql from '@fastify/mysql';
+import mysql from 'mysql2/promise';
 
-export const connect = (fastify) => {
-
-    const user = process.env.MYSQL_ROOT_USER;
-    const password = process.env.MYSQL_ROOT_PASSWORD;
-    const port = process.env.MYSQL_PORT;
-
-    const mysqlConnectionString = `mysql://${user}:${password}@localhost:${port}/agency_database`
-
-    return fastify.register(fastifyMysql, {
-        connectionString: mysqlConnectionString,
+export const connect = async () => {
+    const connection = await mysql.createConnection({
+        host: process.env.HOST,
+        user: process.env.MYSQL_USER,
+        database: process.env.MYSQL_DATABASE,
+        port: process.env.MYSQL_PORT,
+        password: process.env.MYSQL_PASSWORD
     });
+    
+    return connection;
 }
