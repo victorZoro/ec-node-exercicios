@@ -18,5 +18,3 @@ export const validate = (brand) => {
         isValid: true,
     };
 }
-
-export { validate }
