@@ -1,4 +1,4 @@
-import BRANDS_QUERY from "../query/brand.query.js";
+import BRANDS_QUERY from "../query/brands.query.js";
 
 export const retrieveBrands = async (connection, params) => {
     if (!params) {
