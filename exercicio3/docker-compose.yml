@@ -1,27 +1,21 @@
-version: '3.3'
-
 services:
-  db:
-    image: mysql:latest
-    restart: always
-    environment:
-      MYSQL_DATABASE: agency_database
-      # So you don't have to use root, but you can if you like
-      MYSQL_USER: ${MYSQL_USER}
-      # You can use whatever password you like
-      MYSQL_PASSWORD: ${MYSQL_PASSWORD}
-      # Password for root access
-      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
-    ports:
-      # <Port exposed> : <MySQL Port running inside container>
-      - '3306:3306'
-    expose:
-      # Opens port 3306 on the container
-      - '3306'
-      # Where our data will be persisted
+  mysqldb:
+    image: mysql:8.0
+    container_name: agency_database
+    restart: unless-stopped
     volumes:
-      - agency_database:/var/lib/mysql
+      - ./dbinit/init.sql:/docker-entrypoint-initdb.d/init.sql
+      - mysqldb:/var/lib/mysql
+    ports:
+      - "3306:3306"
+    expose:
+      - "3306"
+    environment:
+      MYSQL_DATABASE: ${MYSQL_DATABASE}
+      MYSQL_ROOT_USER: ${MYSQL_ROOT_USER}
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD}
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+      SERVICE_NAME: mysqldb
 
-# Names our volume
 volumes:
-  agency_database:
+  mysqldb:
