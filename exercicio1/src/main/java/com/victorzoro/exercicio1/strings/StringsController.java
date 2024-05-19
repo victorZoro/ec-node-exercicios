@@ -24,4 +24,8 @@ public class StringsController {
     return stringsService.getStrings();
   }
 
+  @PostMapping("/strings")
+  public void addString(@RequestParam("string") String string) {
+    stringsService.addString(string);
+  }
 }

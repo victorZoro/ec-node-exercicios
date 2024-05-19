@@ -17,5 +17,8 @@ public class StringsService {
     return strings;
   }
 
+  public void addString(String string) {
+    strings.add(string);
+  }
 }
 
