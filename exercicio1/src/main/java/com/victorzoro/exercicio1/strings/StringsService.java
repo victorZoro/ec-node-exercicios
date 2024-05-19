@@ -2,6 +2,8 @@ package com.victorzoro.exercicio1.strings;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 import org.springframework.stereotype.Service;
 
@@ -13,8 +15,10 @@ public class StringsService {
     this.strings = new ArrayList<>();
   }
 
-  public List<String> getStrings() {
-    return strings;
+  public List<IndexedStringsDto> getStrings() {
+    return IntStream.range(0, strings.size())
+      .mapToObj(i -> new IndexedStringsDto(i, strings.get(i)))
+      .collect(Collectors.toList());
   }
 
   public void addString(String string) {

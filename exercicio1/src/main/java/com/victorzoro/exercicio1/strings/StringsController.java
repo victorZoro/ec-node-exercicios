@@ -20,7 +20,7 @@ public class StringsController {
   }
 
   @GetMapping("/strings")
-  public List<String> getStrings() {
+  public List<IndexedStringsDto> getStrings() {
     return stringsService.getStrings();
   }
 
