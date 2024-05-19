@@ -24,5 +24,9 @@ public class StringsService {
   public void addString(String string) {
     strings.add(string);
   }
+
+  public void deleteString(int stringId) {
+      strings.remove(stringId);
+  }
 }
 
